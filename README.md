@@ -1,46 +1,57 @@
-# Getting Started with Create React App
+# UMAX 发型设计应用
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+UMAX是一款专注于发型设计的应用，通过AI技术分析用户脸型，推荐最适合的发型，并提供详细的理发指南。
 
-## Available Scripts
+## 主要功能
 
-In the project directory, you can run:
+- **脸型分析**：上传自拍照片，系统分析脸型特征
+- **发型推荐**：基于脸型分析结果推荐合适的发型
+- **虚拟试戴**：查看推荐发型在自己脸上的效果
+- **理发指南**：生成详细的理发步骤，方便与理发师沟通
+- **分享功能**：将发型效果分享给朋友征求意见
 
-### `npm start`
+## 技术栈
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React 18
+- TypeScript
+- Material UI
+- React Router
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 安装与运行
 
-### `npm test`
+1. 克隆仓库
+   ```
+   git clone <repository-url>
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. 安装依赖
+   ```
+   cd umax-hairdesign
+   npm install
+   ```
 
-### `npm run build`
+3. 启动开发服务器
+   ```
+   npm start
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+4. 构建生产版本
+   ```
+   npm run build
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 应用流程
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. 用户自拍上传（正面和侧面照片）
+2. AI分析脸型，提供匹配度评分
+3. 推荐适合的发型，并可以筛选
+4. 虚拟试戴查看效果
+5. 用户选择喜欢的发型，生成理发指南
+6. 分享给朋友或理发师
 
-### `npm run eject`
+## 未来计划
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 增加更多发型模板
+- 提升AI分析精度
+- 添加高级美颜滤镜
+- 完善付费订阅功能

@@ -49,7 +49,7 @@ const hairstyleData = [
 ];
 
 // 假设的评分数据
-interface Rating {
+interface RatingData {
   id: number;
   userName: string;
   rating: number;
@@ -59,7 +59,7 @@ interface Rating {
 
 interface HairstyleWithRatings {
   style: typeof hairstyleData[0];
-  ratings: Rating[];
+  ratings: RatingData[];
   averageRating: number;
   ratingCounts: {
     1: number;
@@ -109,7 +109,7 @@ const RatingResults: React.FC = () => {
     // 模拟从API获取评分数据
     setTimeout(() => {
       // 假设的评分数据（在实际应用中应该从API获取）
-      const mockRatings: { [key: number]: Rating[] } = {
+      const mockRatings: { [key: number]: RatingData[] } = {
         1: [
           { id: 1, userName: '张三', rating: 4.5, comment: '这款发型很适合你，显得年轻有活力！我觉得非常适合你日常使用。', date: '2023-03-24' },
           { id: 2, userName: '李四', rating: 5, comment: '绝对是最适合你的款式，突出了你的脸型优势，气质一下提升了！', date: '2023-03-23' },
@@ -126,7 +126,7 @@ const RatingResults: React.FC = () => {
       };
 
       // 计算每个评分的数量分布
-      const getRatingCounts = (ratings: Rating[]) => {
+      const getRatingCounts = (ratings: RatingData[]) => {
         const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
         ratings.forEach(rating => {
           const score = Math.floor(rating.rating);

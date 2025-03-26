@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Box, Typography, Tabs, Tab, Button, Paper, Divider, Snackbar, Alert } from '@mui/material';
+import { Box, Typography, Tabs, Tab, Button, Paper, Divider, Snackbar, Alert, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress, TextField, Avatar } from '@mui/material';
 import PageContainer from '../components/PageContainer';
 import PrimaryButton from '../components/PrimaryButton';
 import ShareIcon from '@mui/icons-material/Share';
@@ -8,6 +8,9 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 
 // 假设的发型数据
 const hairstyleData = [
@@ -82,6 +85,13 @@ const HairStylePreview: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [shareSnackbarOpen, setShareSnackbarOpen] = useState(false);
   const [userChoice, setUserChoice] = useState<'like' | 'dislike' | 'undecided' | null>(null);
+  
+  // 新增状态
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [shareResultDialogOpen, setShareResultDialogOpen] = useState(false);
+  const [shareLink, setShareLink] = useState("");
+  const [isGeneratingLink, setIsGeneratingLink] = useState(false);
+  const [shareNote, setShareNote] = useState("");
 
   // 根据ID获取发型数据
   const hairStyle = hairstyleData.find(style => style.id === Number(id));
@@ -107,12 +117,41 @@ const HairStylePreview: React.FC = () => {
   };
 
   const handleShare = () => {
-    // 实际应用中这里会实现分享功能
+    // 打开分享对话框
+    setShareDialogOpen(true);
+  };
+
+  // 生成分享链接
+  const generateShareLink = () => {
+    setIsGeneratingLink(true);
+    
+    // 模拟生成分享链接的过程
+    setTimeout(() => {
+      const shareId = Math.random().toString(36).substring(2, 10);
+      setShareLink(`https://umax.app/share/${shareId}`);
+      setIsGeneratingLink(false);
+    }, 1000);
+  };
+  
+  // 复制分享链接
+  const copyShareLink = () => {
+    navigator.clipboard.writeText(shareLink);
     setShareSnackbarOpen(true);
+  };
+  
+  // 关闭分享对话框并打开结果对话框
+  const completeSharing = () => {
+    setShareDialogOpen(false);
+    setShareResultDialogOpen(true);
   };
 
   const handleViewGuide = () => {
     navigate(`/guide/${id}`);
+  };
+
+  const handleViewRatings = () => {
+    // 跳转到评分结果页面
+    navigate(`/rating-results/sample`);
   };
 
   return (
@@ -221,6 +260,27 @@ const HairStylePreview: React.FC = () => {
         </Box>
       </Box>
 
+      <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+        <Button
+          variant="contained"  // 更改为contained，增加可见性
+          color="primary"
+          startIcon={<ShareIcon />}
+          onClick={handleShare}
+          sx={{ borderRadius: 8, py: 1.5, flex: 1 }}
+        >
+          分享给朋友评分
+        </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<DescriptionIcon />}
+          onClick={handleViewRatings}
+          sx={{ borderRadius: 8, py: 1.5, flex: 1 }}
+        >
+          查看朋友评分
+        </Button>
+      </Box>
+
       <Paper
         elevation={0}
         sx={{
@@ -250,15 +310,6 @@ const HairStylePreview: React.FC = () => {
       </Paper>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        <Button
-          variant="outlined"
-          color="primary"
-          startIcon={<ShareIcon />}
-          onClick={handleShare}
-          sx={{ borderRadius: 8, py: 1.5 }}
-        >
-          分享给朋友评价
-        </Button>
         <PrimaryButton
           startIcon={<DescriptionIcon />}
           onClick={handleViewGuide}
@@ -266,6 +317,191 @@ const HairStylePreview: React.FC = () => {
           查看理发指南
         </PrimaryButton>
       </Box>
+
+      {/* 分享对话框 */}
+      <Dialog 
+        open={shareDialogOpen} 
+        onClose={() => setShareDialogOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>分享发型</DialogTitle>
+        <DialogContent>
+          <Box sx={{ mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+              <Avatar 
+                src={hairStyle.originalImage} 
+                variant="rounded" 
+                sx={{ width: 60, height: 60, mr: 2 }}
+              />
+              <Box>
+                <Typography variant="subtitle1" fontWeight="bold">
+                  {hairStyle.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  适合度: {hairStyle.matchScore}%
+                </Typography>
+              </Box>
+            </Box>
+            
+            <Typography variant="body2" fontWeight="bold" sx={{ mb: 1 }}>
+              添加留言（可选）:
+            </Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={2}
+              variant="outlined"
+              placeholder="例如：帮我看看这个发型适不适合我"
+              value={shareNote}
+              onChange={(e) => setShareNote(e.target.value)}
+              sx={{ mb: 3 }}
+            />
+
+            {!shareLink ? (
+              <Button 
+                variant="contained" 
+                color="primary" 
+                fullWidth 
+                onClick={generateShareLink}
+                disabled={isGeneratingLink}
+                startIcon={isGeneratingLink ? <CircularProgress size={20} /> : <QrCodeIcon />}
+                sx={{ borderRadius: 8, py: 1.5 }}
+              >
+                {isGeneratingLink ? '生成中...' : '生成分享链接'}
+              </Button>
+            ) : (
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" sx={{ mb: 1 }}>
+                  分享链接:
+                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <TextField
+                    fullWidth
+                    variant="outlined"
+                    value={shareLink}
+                    InputProps={{
+                      readOnly: true,
+                    }}
+                    size="small"
+                  />
+                  <Button 
+                    variant="outlined" 
+                    color="primary"
+                    onClick={copyShareLink}
+                    sx={{ minWidth: 'auto', borderRadius: 2 }}
+                  >
+                    <ContentCopyIcon />
+                  </Button>
+                </Box>
+              </Box>
+            )}
+            
+            {shareLink && (
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="subtitle2" sx={{ mb: 2 }}>
+                  选择分享方式:
+                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                  <Button 
+                    variant="outlined" 
+                    color="primary" 
+                    startIcon={<WhatsAppIcon />}
+                    onClick={completeSharing}
+                    sx={{ borderRadius: 8, flex: 1, mr: 1 }}
+                  >
+                    WhatsApp
+                  </Button>
+                </Box>
+              </Box>
+            )}
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShareDialogOpen(false)}>取消</Button>
+          {shareLink && (
+            <Button onClick={completeSharing} variant="contained" color="primary">
+              完成
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
+
+      {/* 分享结果对话框 */}
+      <Dialog 
+        open={shareResultDialogOpen} 
+        onClose={() => setShareResultDialogOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>分享成功</DialogTitle>
+        <DialogContent>
+          <Box sx={{ textAlign: 'center', py: 2 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              🎉 已成功分享发型！
+            </Typography>
+            
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+              <Box
+                component="img"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=example"
+                alt="QR Code"
+                sx={{ width: 150, height: 150 }}
+              />
+            </Box>
+            
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+              你的朋友可以通过链接或扫描二维码进行查看和评分。
+              当他们完成评分后，你将收到通知。
+            </Typography>
+            
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                bgcolor: 'background.paper',
+                p: 2,
+                borderRadius: 2,
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}
+            >
+              <Avatar 
+                src={hairStyle.originalImage} 
+                variant="rounded" 
+                sx={{ width: 80, height: 80, mr: 3 }}
+              />
+              <Box>
+                <Typography variant="h6" fontWeight="bold">
+                  {hairStyle.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary" mb={1}>
+                  适合度: {hairStyle.matchScore}%
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  <Divider orientation="vertical" flexItem />
+                  <Typography variant="body2" color="text.secondary">
+                    {hairStyle.length} · {hairStyle.style} · {hairStyle.occasion}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setShareResultDialogOpen(false)}>
+            关闭
+          </Button>
+          <Button 
+            variant="contained" 
+            color="primary"
+            onClick={() => {
+              navigate('/rating-results/sample');
+            }}
+          >
+            查看评分结果
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Snackbar
         open={snackbarOpen}
@@ -284,8 +520,12 @@ const HairStylePreview: React.FC = () => {
         onClose={() => setShareSnackbarOpen(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={() => setShareSnackbarOpen(false)} severity="info">
-          分享链接已复制，您可以发送给朋友请求反馈。
+        <Alert 
+          onClose={() => setShareSnackbarOpen(false)} 
+          severity="success"
+          sx={{ width: '100%' }}
+        >
+          分享链接已复制到剪贴板！
         </Alert>
       </Snackbar>
     </PageContainer>

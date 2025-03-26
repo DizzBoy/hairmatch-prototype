@@ -8,6 +8,8 @@ import FaceAnalysis from './pages/FaceAnalysis';
 import HairStyleRecommendation from './pages/HairStyleRecommendation';
 import HairStylePreview from './pages/HairStylePreview';
 import HairStyleGuide from './pages/HairStyleGuide';
+import HairStyleRating from './pages/HairStyleRating';
+import RatingResults from './pages/RatingResults';
 import './App.css';
 
 // 创建深色主题
@@ -42,6 +44,8 @@ function App() {
           <Route path="/recommendation" element={<HairStyleRecommendation />} />
           <Route path="/preview/:id" element={<HairStylePreview />} />
           <Route path="/guide/:id" element={<HairStyleGuide />} />
+          <Route path="/rate/:shareId" element={<HairStyleRating />} />
+          <Route path="/rating-results/:shareId" element={<RatingResults />} />
         </Routes>
       </Router>
     </ThemeProvider>

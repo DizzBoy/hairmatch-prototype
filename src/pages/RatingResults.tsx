@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Typography, Paper, Card, CardMedia, Divider, Rating, List, ListItem, ListItemAvatar, Avatar, ListItemText, CircularProgress, Chip, Tab, Tabs, Button, IconButton, LinearProgress, Grid } from '@mui/material';
+import { Box, Typography, Paper, Card, CardMedia, Divider, Rating, List, ListItem, ListItemAvatar, Avatar, ListItemText, CircularProgress, Chip, Tab, Tabs, Button, LinearProgress, Grid } from '@mui/material';
 import PageContainer from '../components/PageContainer';
 import PrimaryButton from '../components/PrimaryButton';
 import PersonIcon from '@mui/icons-material/Person';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import ShareIcon from '@mui/icons-material/Share';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import BarChartIcon from '@mui/icons-material/BarChart';

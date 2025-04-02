@@ -42,7 +42,7 @@ const SelfieCapture: React.FC = () => {
 
   const handleContinue = () => {
     // 正常情况下这里会上传图片到服务器，但现在只做前端体验
-    navigate('/face-analysis');
+    navigate('/face-analysis-loading');
   };
 
   const switchSelfieType = () => {

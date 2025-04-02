@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Welcome from './pages/Welcome';
 import SelfieCapture from './pages/SelfieCapture';
 import FaceAnalysis from './pages/FaceAnalysis';
+import FaceAnalysisLoading from './pages/FaceAnalysisLoading';
 import HairStyleRecommendation from './pages/HairStyleRecommendation';
 import HairStylePreview from './pages/HairStylePreview';
 import HairStyleGuide from './pages/HairStyleGuide';
@@ -40,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/selfie" element={<SelfieCapture />} />
+          <Route path="/face-analysis-loading" element={<FaceAnalysisLoading />} />
           <Route path="/face-analysis" element={<FaceAnalysis />} />
           <Route path="/recommendation" element={<HairStyleRecommendation />} />
           <Route path="/preview/:id" element={<HairStylePreview />} />

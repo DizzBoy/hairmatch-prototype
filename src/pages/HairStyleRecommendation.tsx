@@ -439,19 +439,48 @@ const HairStyleRecommendation: React.FC = () => {
 
       {/* 批量分享浮动按钮 */}
       {!isBatchMode && (
-        <Fab 
-          color="primary" 
-          aria-label="批量分享" 
-          sx={{ 
-            position: 'fixed', 
-            bottom: 16, 
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: 16,
             right: 16,
-            boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: 1,
           }}
-          onClick={enterBatchMode}
         >
-          <ShareIcon />
-        </Fab>
+          <Typography
+            variant="caption"
+            sx={{
+              bgcolor: 'primary.main',
+              color: 'white',
+              px: 1,
+              py: 0.5,
+              borderRadius: 1,
+              fontSize: '0.75rem',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            让朋友帮你选择
+          </Typography>
+          <Fab 
+            color="primary" 
+            aria-label="批量分享" 
+            onClick={enterBatchMode}
+            sx={{ 
+              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+              width: 56,
+              height: 56,
+              '&:hover': {
+                transform: 'scale(1.05)',
+                transition: 'transform 0.2s ease-in-out',
+              }
+            }}
+          >
+            <ShareIcon />
+          </Fab>
+        </Box>
       )}
 
       {/* 分享对话框 */}

@@ -11,6 +11,7 @@ import HairStylePreview from './pages/HairStylePreview';
 import HairStyleGuide from './pages/HairStyleGuide';
 import HairStyleRating from './pages/HairStyleRating';
 import RatingResults from './pages/RatingResults';
+import SharedHairStyle from './pages/SharedHairStyle';
 import './App.css';
 
 // 创建深色主题
@@ -48,6 +49,7 @@ function App() {
           <Route path="/guide/:id" element={<HairStyleGuide />} />
           <Route path="/rate/:shareId" element={<HairStyleRating />} />
           <Route path="/rating-results/:shareId" element={<RatingResults />} />
+          <Route path="/shared/:shareId" element={<SharedHairStyle />} />
         </Routes>
       </Router>
     </ThemeProvider>
